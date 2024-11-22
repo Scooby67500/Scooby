@@ -95,13 +95,13 @@ module.exports = {
 					await member.roles.add(role);
 					logChannel.send(`L'utilisateur ${user.username} a été ajouté à la liste des VIP pour une durée de ${duration} jours. (par ${interaction.user.username})`);
 					console.log(`${clr.cya}[VIP]	${clr.blu}${user.username} ${clr.whi}a été ajouté à la liste des VIP pour une durée de ${duration} jours. (par ${clr.blu}${interaction.user.username}${clr.stop})`);
-					interaction.reply({ content: `L'utilisateur ${user.username} a été ajouté à la liste des VIP pour une durée de ${duration} jours.`, ephemeral: true });
+					return interaction.reply({ content: `L'utilisateur ${user.username} a été ajouté à la liste des VIP pour une durée de ${duration} jours.`, ephemeral: true });
 				}
 				else {
 					await user.send(`Votre statut VIP DEVZONE a été prolongé de ${duration} jours.`);
 					logChannel.send(`La durée du statut VIP de ${user.username} a été prolongée de ${duration} jours. (par ${interaction.user.username})`);
 					console.log(`${clr.cya}[VIP]	${clr.whi}La durée du statut VIP de ${clr.blu}${user.username}${clr.whi} a été prolongée de ${duration} jours. (par ${clr.blu}${interaction.user.username}${clr.stop})`);
-					interaction.reply({ content: `La durée du statut VIP de ${user.username} a été prolongée de ${duration} jours.`, ephemeral: true });
+					return interaction.reply({ content: `La durée du statut VIP de ${user.username} a été prolongée de ${duration} jours.`, ephemeral: true });
 				}
 			} catch (err) {
 				console.log(`${clr.red}[VIP]	Error while adding VIP data to the database:${clr.stop} ${err}`);
@@ -120,7 +120,7 @@ module.exports = {
 					await user.send(`Votre statut VIP DEVZONE vous a été retiré par un administrateur.`);
 					logChannel.send(`L'utilisateur ${user.username} a été retiré de la liste des VIP. (par ${interaction.user.username})`);
 					console.log(`${clr.cya}[VIP]	${clr.blu}${user.username}${clr.whi} a été retiré de la liste des VIP. (par ${clr.blu}${interaction.user.username}${clr.stop})`);
-					interaction.reply({ content: `L'utilisateur ${user.username} a été retiré de la liste des VIP.`, ephemeral: true });
+					return interaction.reply({ content: `L'utilisateur ${user.username} a été retiré de la liste des VIP.`, ephemeral: true });
 				}
 				else {
 					expirationTime -= duration * timeSetting;
@@ -129,7 +129,7 @@ module.exports = {
 					await user.send(`La durée de votre statut VIP DEVZONE a été réduite de ${duration} jours. Durée restante:	${timeLeft} jours.`);
 					logChannel.send(`La durée du statut VIP de ${user.username} a été réduite de ${duration} jours. Reste: ${timeLeft}. (par ${interaction.user.username})`);
 					console.log(`${clr.cya}[VIP]	${clr.whi}La durée du statut VIP de ${clr.blu}${user.username}${clr.whi} a été réduite de ${duration} jours. Reste: ${timeLeft}. (par ${clr.blu}${interaction.user.username}${clr.stop})`);
-					interaction.reply({ content: `La durée du statut VIP de ${user.username} a été réduite de ${duration} jours. Reste: ${timeLeft}`, ephemeral: true });
+					return interaction.reply({ content: `La durée du statut VIP de ${user.username} a été réduite de ${duration} jours. Reste: ${timeLeft}`, ephemeral: true });
 				}
 			} catch (err) {
 				console.log(`${clr.red}[VIP]	Error while updating VIP data in the database:${clr.stop} ${err}`);
@@ -146,7 +146,7 @@ module.exports = {
 			timeLeft = Math.ceil((expirationTime - currentTime) / timeSetting);
 			logChannel.send(`L'utilisateur ${interaction.user.username} a vérifié son statut VIP de ${user.username}.`);
 			console.log(`${clr.cya}[VIP]	${clr.blu}${interaction.user.username} ${clr.whi}a vérifié son statut VIP de ${clr.blu}${user.username}.${clr.stop}`);
-			interaction.reply({ content: `L'utilisateur ${user.username} est VIP DEVZONE pour encore ${timeLeft} jours.`, ephemeral: true });
+			return interaction.reply({ content: `L'utilisateur ${user.username} est VIP DEVZONE pour encore ${timeLeft} jours.`, ephemeral: true });
 		}
 	}
 }
