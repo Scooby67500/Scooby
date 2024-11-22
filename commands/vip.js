@@ -91,14 +91,14 @@ module.exports = {
 					[user.id, expirationTime]
 				);
 				if (!member.roles.cache.has(role.id)) {
-					await user.send(`Vous êtes désormais VIP DEVZONE pour une durée de ${duration} jours.`);
+					await user.send(`Vous êtes désormais **VIP DEVZONE** pour une durée de ${duration} jours.\nVous serez notifier 3 jours avant l'expiration de votre statut.\nPour verifier votre statut, utilisez la commande \`/vip @(vous) check\``);
 					await member.roles.add(role);
 					logChannel.send(`L'utilisateur ${user.username} a été ajouté à la liste des VIP pour une durée de ${duration} jours. (par ${interaction.user.username})`);
 					console.log(`${clr.cya}[VIP]	${clr.blu}${user.username} ${clr.whi}a été ajouté à la liste des VIP pour une durée de ${duration} jours. (par ${clr.blu}${interaction.user.username}${clr.stop})`);
 					return interaction.reply({ content: `L'utilisateur ${user.username} a été ajouté à la liste des VIP pour une durée de ${duration} jours.`, ephemeral: true });
 				}
 				else {
-					await user.send(`Votre statut VIP DEVZONE a été prolongé de ${duration} jours.`);
+					await user.send(`Votre statut VIP DEVZONE a été prolongé de ${duration} jours.\nPour verifier votre statut, utilisez la commande \`/vip @(vous) check\``);
 					logChannel.send(`La durée du statut VIP de ${user.username} a été prolongée de ${duration} jours. (par ${interaction.user.username})`);
 					console.log(`${clr.cya}[VIP]	${clr.whi}La durée du statut VIP de ${clr.blu}${user.username}${clr.whi} a été prolongée de ${duration} jours. (par ${clr.blu}${interaction.user.username}${clr.stop})`);
 					return interaction.reply({ content: `La durée du statut VIP de ${user.username} a été prolongée de ${duration} jours.`, ephemeral: true });
