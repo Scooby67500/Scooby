@@ -11,7 +11,7 @@ module.exports = {
         })
         bot.user.setActivity({    // Sets the activity
             name: "DevZone",    // Name of the game/stream/music etc
-            type: Discord.ActivityType.Competing,    // Type of activity (streaming, playing, listening to, competing etc)
+            type: Discord.ActivityType.play,    // Type of activity (streaming, playing, listening to, competing etc)
             //url: ""    // 'url' property only works with streaming type
         })
 
