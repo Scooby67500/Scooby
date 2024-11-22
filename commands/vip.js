@@ -21,7 +21,6 @@ module.exports = {
 					{ name: 'add', value: 'add' },
 					{ name: 'remove', value: 'remove' },
 					{ name: 'check', value: 'check' },
-					{ name: 'list', value: 'list' }
 				)
 		)
 		.addIntegerOption(option =>
