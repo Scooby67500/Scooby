@@ -16,12 +16,7 @@ module.exports = {
         })
 
         const guildsNbr = bot.guilds.cache.size;  // Stores the numbers of server the bot is in
-        console.log(`${clr.cya}[Ready]    ${clr.blu}${bot.user.username} is present in ${guildsNbr} servers${clr.stop}`);
-
-        console.log(`${clr.cya}[Ready]    ${clr.blu}${bot.user.username} ${clr.grn}is online${clr.stop}`);
-
-       
-        
+		console.log(`${clr.cya}[Ready]	${clr.red}${bot.user.username}${clr.grn} is ONLINE. Present in ${guildsNbr} servers${clr.stop}`);
 
     },
 };
