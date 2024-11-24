@@ -10,11 +10,15 @@ module.exports = {
 	async execute(bot) {
 
 		const timeSetting = 60 * 60 * 24 * 1000; // days in milliseconds
-		//  60 * 60 * 1000          hours in milliseconds
-		//  60 * 1000               minutes in milliseconds
+						//  60 * 60 * 1000          hours in milliseconds
+						//  60 * 1000               minutes in milliseconds
 
 		const VIPguild = bot.guilds.cache.get(config.VIPGuildId);
 		const VIProle = VIPguild.roles.cache.get("1304450331727495251");
+		if (!VIProle || !VIPguild) {
+			console.log(`${clr.cya}[VIP]	${clr.red}VIP role not found in VIP guild or role${clr.stop}`);
+			return;
+		}
 
 		// Schedulejob every day at midnight, that gets all VIP users from the vip_users table and
 		// checks if their expiration_time is less than the current time. If it is,
@@ -27,11 +31,9 @@ module.exports = {
 				if (vipUser.expiration_time < currentTime) {
 					const user = await bot.users.fetch(vipUser.user_id);
 					const member = await VIPguild.members.fetch(user);
-					const role = VIPguild.roles.cache.get("1304450331727495251");
-					//get role using id
 					await dbClient.query(`DELETE FROM vip_users WHERE user_id = $1`, [user.id]);
-					if (member.roles.cache.has(role.id)) {
-						await member.roles.remove(role);
+					if (member.roles.cache.has(VIProle.id)) {
+						await member.roles.remove(VIProle);
 						await user.send(`Votre statut VIP DEVZONE a expirer.`);
 						console.log(`${clr.cya}[VIP]	${clr.blu}${user.username} ${clr.whi}lost their VIP DEVZONE status. (expired)${clr.stop}`);
 					}
