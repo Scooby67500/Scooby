@@ -14,6 +14,7 @@ module.exports = {
 		//  60 * 1000               minutes in milliseconds
 
 		const VIPguild = bot.guilds.cache.get(config.VIPGuildId);
+		const VIProle = VIPguild.roles.cache.get("1304450331727495251");
 
 		// Schedulejob every day at midnight, that gets all VIP users from the vip_users table and
 		// checks if their expiration_time is less than the current time. If it is,
@@ -21,13 +22,13 @@ module.exports = {
 		schedule.scheduleJob('*/1 * * * *', async () => {
 			const currentTime = Date.now();
 			const vipUsers = await dbClient.query(`SELECT * FROM vip_users`);
-			const vipRole = VIPguild.roles.cache.find(role => role.name === 'VIP');
+
 			vipUsers.rows.forEach(async vipUser => {
 				if (vipUser.expiration_time < currentTime) {
 					const user = await bot.users.fetch(vipUser.user_id);
 					const member = await VIPguild.members.fetch(user);
+					const role = VIPguild.roles.cache.get("1304450331727495251");
 					//get role using id
-					const role = member.guild.roles.cache.get("1304450331727495251");
 					await dbClient.query(`DELETE FROM vip_users WHERE user_id = $1`, [user.id]);
 					if (member.roles.cache.has(role.id)) {
 						await member.roles.remove(role);
