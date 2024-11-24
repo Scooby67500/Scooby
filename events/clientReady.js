@@ -6,6 +6,7 @@ module.exports = {
     once: true,    // Triggers only once.
     async execute(bot) {
 
+		bot.user.setUsername("DevZone");    // Sets the bot's username
         bot.user.setPresence({    // Sets status to 'online' (could be 'afk' or 'dnd')
             status: 'online',
         })
