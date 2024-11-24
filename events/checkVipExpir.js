@@ -13,14 +13,8 @@ module.exports = {
 						//  60 * 60 * 1000          hours in milliseconds
 						//  60 * 1000               minutes in milliseconds
 
-		const VIPguild = bot.guilds.cache.get(config.VIPGuildId);
-		const VIProle = VIPguild.roles.cache.get("1304450331727495251");
-		if (!VIProle || !VIPguild) {
-			console.log(`${clr.cya}[VIP]	${clr.red}VIP role not found in VIP guild or role${clr.stop}`);
-			return;
-		}
 
-		// Schedulejob every day at midnight, that gets all VIP users from the vip_users table and
+		// Schedulejob every day at noon, that gets all VIP users from the vip_users table and
 		// checks if their expiration_time is less than the current time. If it is,
 		// remove them from the database and remove the vip role.
 		schedule.scheduleJob('*/1 * * * *', async () => {
@@ -28,19 +22,19 @@ module.exports = {
 			const vipUsers = await dbClient.query(`SELECT * FROM vip_users`);
 
 			vipUsers.rows.forEach(async vipUser => {
+				const user = await bot.users.fetch(vipUser.user_id);
+				const guild = await bot.guilds.fetch(config.VIPGuildId);
+				const member = await guild.members.fetch(user.id);
+				const vipRole = guild.roles.cache.get("1304450331727495251");
+
 				if (vipUser.expiration_time < currentTime) {
-					const user = await bot.users.fetch(vipUser.user_id);
-					const member = await VIPguild.members.fetch(user);
+					await member.roles.remove(vipRole);
 					await dbClient.query(`DELETE FROM vip_users WHERE user_id = $1`, [user.id]);
-					if (member.roles.cache.has(VIProle.id)) {
-						await member.roles.remove(VIProle);
-						await user.send(`Votre statut VIP DEVZONE a expirer.`);
-						console.log(`${clr.cya}[VIP]	${clr.blu}${user.username} ${clr.whi}lost their VIP DEVZONE status. (expired)${clr.stop}`);
-					}
+					await user.send(`Votre statut VIP DEVZONE a expiré.`);
+					console.log(`${clr.cya}[VIP]	${clr.red}${user.username} ${clr.whi}has lost their VIP DEVZONE status.${clr.stop}`);
 				}
 				// if expiration time is less than 3 days, notify the user
 				else if  (vipUser.expiration_time - 3 * timeSetting < currentTime && !vipUser.notified) {
-					const user = await bot.users.fetch(vipUser.user_id);
 					await dbClient.query(`UPDATE vip_users SET notified = TRUE WHERE user_id = $1`, [user.id]);
 					await user.send(`Votre statut VIP DEVZONE va expirer dans 3 jours.`);
 					console.log(`${clr.cya}[VIP]	${clr.blu}${user.username} ${clr.whi}has been notified that their VIP DEVZONE status will expire in 3 days.${clr.stop}`);
