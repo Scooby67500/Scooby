@@ -7,6 +7,12 @@ module.exports = {
 
         if (!interaction.isChatInputCommand())    // Filter to only support chat commands
             return;
+		if (interaction.channel.type === 'DM') {
+			await interaction.reply({
+				content: "❌ Les commandes slash ne peuvent pas être utilisées en messages privés.",
+				ephemeral: true,
+			});
+		return;
 
         const bot = interaction.client;
         let command = bot.commands.get(interaction.commandName); // Checks if the triggered command is in the 'commands' array
