@@ -17,7 +17,7 @@ module.exports = {
 		// Schedulejob every day at noon, that gets all VIP users from the vip_users table and
 		// checks if their expiration_time is less than the current time. If it is,
 		// remove them from the database and remove the vip role.
-		schedule.scheduleJob('*/1 * * * *', async () => {
+		schedule.scheduleJob('0 12 * * *', async () => {
 			const currentTime = Date.now();
 			const vipUsers = await dbClient.query(`SELECT * FROM vip_users`);
 
