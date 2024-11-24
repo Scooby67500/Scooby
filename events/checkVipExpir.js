@@ -23,7 +23,7 @@ module.exports = {
 
 			vipUsers.rows.forEach(async vipUser => {
 				const user = await bot.users.fetch(vipUser.user_id);
-				const guild = await bot.guilds.fetch(config.VIPGuildId);
+				const guild = await bot.guilds.cache.get(config.VIPGuildId);
 				const member = await guild.members.fetch(user.id);
 				const vipRole = guild.roles.cache.get("1304450331727495251");
 
