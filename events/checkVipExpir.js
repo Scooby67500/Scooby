@@ -26,7 +26,8 @@ module.exports = {
 				if (vipUser.expiration_time < currentTime) {
 					const user = await bot.users.fetch(vipUser.user_id);
 					const member = await VIPguild.members.fetch(user);
-					const role = VIPguild.roles.cache.get("1304450331727495251");
+					//get role using id
+					const role = member.guild.roles.cache.get("1304450331727495251");
 					await dbClient.query(`DELETE FROM vip_users WHERE user_id = $1`, [user.id]);
 					if (member.roles.cache.has(role.id)) {
 						await member.roles.remove(role);
