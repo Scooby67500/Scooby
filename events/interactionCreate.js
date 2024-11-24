@@ -7,7 +7,7 @@ module.exports = {
 
         if (!interaction.isChatInputCommand())    // Filter to only support chat commands
             return;
-		if (interaction.channel.type === 'DM') {
+		if (!interaction.guild) {
 			await interaction.reply({
 				content: "❌ Les commandes slash ne peuvent pas être utilisées en messages privés.",
 				ephemeral: true,
