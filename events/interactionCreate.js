@@ -12,7 +12,8 @@ module.exports = {
 				content: "❌ Les commandes slash ne peuvent pas être utilisées en messages privés.",
 				ephemeral: true,
 			});
-		return;
+			return;
+		}
 
         const bot = interaction.client;
         let command = bot.commands.get(interaction.commandName); // Checks if the triggered command is in the 'commands' array
